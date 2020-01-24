@@ -8,12 +8,19 @@ const buttons = [
 ]
 
 // Store state
+let myTurn = false
 let sequence = []
 
-buttons.forEach(btn => btn.addEventListener('click', () => onButtonClick(btn)))
+const config = { attributes: true, attributeFilter: ['class'], attributeOldValue: true }
+const observer = new MutationObserver(onButtonActive)
+buttons.forEach(btn => observer.observe(btn, config))
 
-function onButtonClick (btn) {
-
+function onButtonActive (mutationsList) {
+  const mutation = mutationsList[0]
+  debugValue = mutation.oldValue
+  if (mutation.target.classList.contains('active') && !mutation.oldValue.split(' ').includes('active')) {
+    sequence.push(mutation.target)
+  }
 }
 
 playBtn.click()
